@@ -6,7 +6,7 @@ module.exports = {
  
   getAllFood: (callBack) => {
     const query = `
-    SELECT gi_food.id, gi_food.food, food_category.category, gi_food.GI
+    SELECT gi_food.id, gi_food.food, food_category.category, gi_food.GI, gi_food.photo
     FROM gi_food
     JOIN food_category ON gi_food.id_category = food_category.id
     ORDER BY gi_food.food;
@@ -23,7 +23,7 @@ module.exports = {
 
   getfoodIdCategory: (id_category, callBack) => {
     const query = `
-      SELECT gi_food.id, gi_food.food, food_category.category, gi_food.GI
+      SELECT gi_food.id, gi_food.food, food_category.category, gi_food.GI, gi_food.photo
       FROM gi_food
       JOIN food_category ON gi_food.id_category = food_category.id
       WHERE gi_food.id_category = ?;
@@ -48,17 +48,18 @@ module.exports = {
       fat,
       calorie,
       serving_size,
-      GL
+      GL,
+      image_path
     } = data;
     try {
-      const resultId = uuid.v4();
+      // const resultId = uuid.v4();
 
       const query = `
-        INSERT INTO result (id, id_users, id_food, food_name, charbo, protein, fat, calorie, serving_size, GL)
+        INSERT INTO result (id_users, id_food, food_name, charbo, protein, fat, calorie, serving_size, GL, image_path)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
       `;
 
-      const results = await mysql.query(query, [resultId, id_users, id_food, food_name, charbo, protein, fat, calorie, serving_size, GL]);
+      const results = await mysql.query(query, [id_users, id_food, food_name, charbo, protein, fat, calorie, serving_size, GL, image_path]);
       return results;
     } catch (error) {
       throw error; // Propagate the error to the caller
@@ -83,7 +84,7 @@ module.exports = {
 
   getNutritionEntry: async (id, callBack) => {
     const query = `
-      SELECT result.id, result.id, result.id_food, result.food_name, result.charbo, result.protein, result.fat, result.calorie, result.serving_size, result.GL, gi_food.GI 
+      SELECT result.id, result.id_food, result.food_name, result.charbo, result.protein, result.fat, result.calorie, result.serving_size, result.GL, result.image_path, gi_food.GI
       FROM result
       LEFT JOIN gi_food ON gi_food.id = result.id_food
       INNER JOIN users ON users.id = result.id_users

@@ -1,6 +1,28 @@
 const router = require('express').Router();
 const multer = require('multer')
-const upload = multer({dest: '../temp/'})
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './storage')
+  },
+  filename: function (req, file, cb) {
+    const generateRandomString = (myLength) => {
+      const chars =
+        "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+      const randomArray = Array.from(
+        { length: myLength },
+        (v, k) => chars[Math.floor(Math.random() * chars.length)]
+      );
+    
+      const randomString = randomArray.join("");
+      return randomString;
+    };
+
+    let extension = file.originalname.split('.')
+    extension = extension[extension.length - 1]
+    cb(null, generateRandomString(32) + '.' + extension)
+  }
+})
+const upload = multer({storage: storage})
 const { TokenCheck } = require('../auth/tokenJWT');
 const {
   createUser,
@@ -30,7 +52,6 @@ router.post('/login', login); //login
 router.get('/profile/:id', TokenCheck, getUserByUserId); //getuserbyID
 router.patch('/profile/updateusername/:userId', TokenCheck, updateUsername);//updateUsername
 router.post('/logout', TokenCheck, logout);//logout
-
 
 //get food 
 router.get("/allfood",TokenCheck,getAllFood)

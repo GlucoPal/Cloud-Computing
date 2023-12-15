@@ -2,6 +2,7 @@
 const mysql = require("../database/data");
 const uuid = require('uuid');
 const { hashSync, genSaltSync } = require("bcrypt");
+const { errors } = require("jose");
 let blacklistedTokens = [];
 
 module.exports = {
@@ -22,17 +23,20 @@ module.exports = {
     // Insert query
     const userId = uuid.v4();
     const insertQuery = `
-      INSERT INTO users (id, username, email, password) 
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO users (username, email, password) 
+      VALUES (?, ?, ?)
     `;
 
-    const registrationResults = await mysql.query(insertQuery, [userId, username, email, hashPassword]);
+    const registrationResults = await mysql.query(insertQuery, [ username, email, hashPassword], (err, result) => {
+      console.log(err)
+    });
 
     const userData = {
       id: userId,
       username: username,
       email: email,
     };
+    console.log(registrationResults)
 
     return userData;
   },
