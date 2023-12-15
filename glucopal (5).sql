@@ -129,12 +129,17 @@ CREATE TABLE `result` (
   `id_users` int(255) NOT NULL,
   `id_food` int(255) NOT NULL,
   `food_name` varchar(255) DEFAULT NULL,
-  `charbo` int(255) DEFAULT NULL,
-  `protein` int(255) DEFAULT NULL,
-  `fat` int(255) DEFAULT NULL,
-  `calorie` int(255) DEFAULT NULL,
-  `serving_size` int(255) NOT NULL,
-  `GL` int(255) DEFAULT NULL
+  `carbo` float DEFAULT NULL,
+  `protein` float DEFAULT NULL,
+  `fat` float DEFAULT NULL,
+  `calorie` float DEFAULT NULL,
+  `sodium` float DEFAULT NULL,
+  `potassium` float DEFAULT NULL,
+  `cholesterol` float DEFAULT NULL,
+  `sugar` float DEFAULT NULL,
+  `calcium` float DEFAULT NULL,
+  `serving_size` float DEFAULT NULL,
+  `GL` float DEFAULT NULL
 ) ;
 
 CREATE TABLE `users` (
@@ -179,4 +184,3 @@ ALTER TABLE `result`
   ADD CONSTRAINT `id_food` FOREIGN KEY (`id_food`) REFERENCES `gi_food` (`id`),
   ADD CONSTRAINT `id_users` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 COMMIT;
-

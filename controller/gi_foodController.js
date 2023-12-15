@@ -59,7 +59,7 @@ module.exports = {
       const {
         id_food,
         food_name,
-        charbo,
+        carbo,
         protein,
         fat,
         calorie,
@@ -73,7 +73,7 @@ module.exports = {
         id_users,
         id_food,
         food_name,
-        charbo,
+        carbo,
         protein,
         fat,
         calorie,

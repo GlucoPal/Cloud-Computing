@@ -5,66 +5,49 @@ const { hashSync, genSaltSync } = require("bcrypt");
 let blacklistedTokens = [];
 
 module.exports = {
-  register: async (data) => {
-    const { username, email, password, gender } = data;
 
-    try {
-      // Check if the username or email already exists
-      const isUsernameTaken = await module.exports.isUsernameTaken(username);
-      const isEmailTaken = await module.exports.isEmailTaken(email);
+  //create account
+  register :async ({ username, email, password }) => {
 
-      if (isUsernameTaken) {
-        throw new Error('Username is already taken');
-      }
+    // Hash the password
+    const salt = genSaltSync(10);
+    const hashPassword = hashSync(password, salt);
 
-      if (isEmailTaken) {
-        throw new Error('Email is already taken');
-      }
+    // Check if email already exists
+    const emailExists = await module.exports.checkIfEmailExists(email);
+  if (emailExists) {
+    throw new Error('Email is already registered.');
+  }
 
-      // Hash the password
-      const salt = genSaltSync(10);
-      const hashPassword = hashSync(data.password, salt);
-      data.password = hashPassword;
+    // Insert query
+    const userId = uuid.v4();
+    const insertQuery = `
+      INSERT INTO users (id, username, email, password) 
+      VALUES (?, ?, ?, ?, ?)
+    `;
 
-      // Insert query
-      const userId = uuid.v4();
-      const query = `
-        INSERT INTO users (id, username, gender, email, password) 
-        VALUES (?, ?, ?, ?, ?)
-      `;
+    const registrationResults = await mysql.query(insertQuery, [userId, username, email, hashPassword]);
 
-      const results = await mysql.query(query, [userId, username, gender, email, data.password]);
+    const userData = {
+      id: userId,
+      username: username,
+      email: email,
+    };
 
-      return results;
-    } catch (error) {
-      throw error; // Propagate the error to the caller
-    }
+    return userData;
   },
 
-  isUsernameTaken: async (username) => {
-    try {
-      const query = 'SELECT COUNT(*) as count FROM users WHERE username = ?';
-      const result = await mysql.query(query, [username]);
-
-      if (result && result[0] && result[0].count !== undefined) {
-        return result[0].count > 0;
-      }
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  isEmailTaken: async (email) => {
-    try {
-      const query = 'SELECT COUNT(*) as count FROM users WHERE email = ?';
-      const result = await mysql.query(query, [email]);
-
-      if (result && result[0] && result[0].count !== undefined) {
-        return result[0].count > 0;
-      }
-    } catch (error) {
-      throw error;
-    }
+  checkIfEmailExists : async (email) => {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM users WHERE email = ?';
+      mysql.query(query, [email], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result.length > 0);
+        }
+      });
+    });
   },
 
   getUserByUserEmailOrUsername: (identifier, callBack) => {
@@ -83,7 +66,7 @@ module.exports = {
 
   getUserByUserId: (id, callBack) => {
     const query = `
-      SELECT id, email, username, gender FROM users WHERE id = ?
+      SELECT id, email, username FROM users WHERE id = ?
     `;
 
     mysql.query(query, [id], (error, results, fields) => {
@@ -97,7 +80,7 @@ module.exports = {
 
   getUsers: (callBack) => {
     const query = `
-      SELECT id, username, gender, email FROM users
+      SELECT id, username, email FROM users
     `;
 
     mysql.query(query, [], (error, results, fields) => {
@@ -135,5 +118,3 @@ module.exports = {
     return blacklistedTokens.includes(token);
   },
 };
-
-

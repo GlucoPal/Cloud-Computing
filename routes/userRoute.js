@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const multer = require('multer')
+const upload = multer({dest: '../temp/'})
 const { TokenCheck } = require('../auth/tokenJWT');
 const {
   createUser,
@@ -18,6 +20,7 @@ const {
   getAllFood,
   getNutritionEntry,
   getHistory} = require("../controller/gi_foodController");
+const { postScanOCR } = require('../controller/ocr_scan');
 
 router.get("/allUser", TokenCheck, getUsers);
 
@@ -37,5 +40,7 @@ router.get("/result/:id",TokenCheck,getNutritionEntry); //get hasil nutrion fact
 router.patch('/result/updateFoodName/:idResult', TokenCheck,updateFoodName); //update nama foodnya
 router.get("/history/:id_users",TokenCheck,getHistory) //history user
 
+// scan OCR
+router.post('/scan/:id_users', upload.single('image'), TokenCheck, postScanOCR) 
 
 module.exports = router;
