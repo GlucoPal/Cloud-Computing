@@ -22,7 +22,7 @@ module.exports = {
                     // potassium, 
                     protein,
                     // sodium,
-                    serving_size
+                    serving
                 } = response.body.result
                 let carbohydrate = response.body.result['total carbohydrate']
                 let fat = response.body.result['total fat']
@@ -38,7 +38,7 @@ module.exports = {
                     protein: protein,
                     fat: fat,
                     calorie: calories,
-                    serving_size: serving_size,
+                    serving_size: serving.split('size ')[1],
                     GL: GL,
                     image_path: image.filename
                 }

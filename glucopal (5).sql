@@ -128,12 +128,12 @@ CREATE TABLE `result` (
   `id_users` int(11) NOT NULL,
   `id_food` int(11) NOT NULL,
   `food_name` varchar(255) NOT NULL,
-  `serving_size` float DEFAULT NULL,
-  `charbo` float DEFAULT NULL,
-  `protein` float DEFAULT NULL,
-  `fat` float DEFAULT NULL,
-  `calorie` float DEFAULT NULL,
-  `GL` float DEFAULT NULL,
+  `serving_size` varchar(255) DEFAULT NULL,
+  `charbo` varchar(255) DEFAULT NULL,
+  `protein` varchar(255) DEFAULT NULL,
+  `fat` varchar(255) DEFAULT NULL,
+  `calorie` varchar(255) DEFAULT NULL,
+  `GL` varchar(255) DEFAULT NULL,
   `image_path` varchar(255) NOT NULL
 ) ;
 CREATE TABLE `users` (
