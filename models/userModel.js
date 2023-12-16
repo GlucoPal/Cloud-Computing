@@ -2,7 +2,6 @@
 const mysql = require("../database/data");
 const uuid = require('uuid');
 const { hashSync, genSaltSync } = require("bcrypt");
-const { errors } = require("jose");
 let blacklistedTokens = [];
 
 module.exports = {
