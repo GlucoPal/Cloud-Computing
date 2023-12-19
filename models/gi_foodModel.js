@@ -102,7 +102,7 @@ module.exports = {
 
   getHistory: (id_users, callBack) => {
     const query = `
-      SELECT result.id result.food_name, result.GL, gi_food.GI, gi_food.photo
+      SELECT result.id, result.food_name, result.GL, gi_food.GI, gi_food.photo
       FROM result
       LEFT JOIN gi_food ON result.id_food = gi_food.id 
       WHERE id_users = ?;
