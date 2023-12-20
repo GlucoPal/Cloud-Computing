@@ -41,7 +41,8 @@ const {
   updateFoodName,
   getAllFood,
   getNutritionEntry,
-  getHistory} = require("../controller/gi_foodController");
+  getHistory,
+  deleteHistoryById} = require("../controller/gi_foodController");
 const { postScanOCR } = require('../controller/ocr_scan');
 
 router.get("/allUser", TokenCheck, getUsers);
@@ -60,7 +61,7 @@ router.get("/food/:id_category",TokenCheck,getfoodIdCategory);//Get Food by Cate
 router.get("/result/:id",TokenCheck,getNutritionEntry); //get hasil nutrion fact by id result
 router.patch('/result/updateFoodName/:idResult', TokenCheck,updateFoodName); //update nama foodnya
 router.get("/history/:id_users",TokenCheck,getHistory) //history user
-
+router.delete('/history/:resultId', TokenCheck, deleteHistoryById)
 // scan OCR
 router.post('/scan/:id_users', upload.single('image'), TokenCheck, postScanOCR) 
 

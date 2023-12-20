@@ -116,6 +116,21 @@ module.exports = {
       }
     });
   },
+
+  deleteHistoryById: (resultId, callBack) => {
+    const query = `
+      DELETE FROM result
+      WHERE id = ?;
+    `;
+
+    mysql.query(query, [resultId], (error, results, fields) => {
+      if (error) {
+        callBack(error);
+      } else {
+        callBack(null, results);
+      }
+    });
+  },
 };
 
 

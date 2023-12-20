@@ -6,7 +6,8 @@ const {
   updateFoodName,
   getAllFood,
   getHistory,
-  getNutritionEntry
+  getNutritionEntry,
+  deleteHistoryById
 } = require("../models/gi_foodModel");
 
 module.exports = {
@@ -175,6 +176,32 @@ module.exports = {
       return res.status(200).json({
         success: 1,
         data: results
+      });
+    });
+  },
+
+  deleteHistoryById: (req, res) => {
+    const resultId = req.params.resultId;
+
+    deleteHistoryById(resultId, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: "Failed to delete the history",
+        });
+      }
+
+      if (results.affectedRows === 0) {
+        return res.status(404).json({
+          success: 0,
+          message: "History not found or you are not authorized to delete it",
+        });
+      }
+
+      return res.status(200).json({
+        success: 1,
+        message: "History deleted successfully",
       });
     });
   },
