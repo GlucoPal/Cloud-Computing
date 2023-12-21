@@ -22,5 +22,28 @@ Following are the steps for deploying our application on the Google Cloud Platfo
 9. After that, we move to the API folder and run the API with pm2.
 10. We set the URL in Postman using an external virtual machine IP so that fellow mobile developers can do testing.
 ---
+#### API Endpoint
+```
+POST Register -> /register
+```
+```
+POST Login -> /login
+```
+```
+GET AllFood -> /allfood
+```
+```
+POST Scan -> /scan/:id_users
+```
+```
+GET History -> /history/:id_users
+```
+```
+GET Result -> /result/:id
+```
+```
+DELETE History -> /history/:resuldId
+```
+---
 #### API Documentation
 Follow this link : [GlucoPal-API Documentation](https://docs.google.com/document/d/1KCHKgnkhBPUZgBfTff7au2YkiAGYoQoxin4eBfa0Xks/edit?usp=sharing)
