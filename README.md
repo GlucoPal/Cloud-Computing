@@ -8,7 +8,7 @@
 * Cloud SQL (MySQL): we use this service to store data from nutrition fact scans, food data, glycemic index data, glycemic load calculation results, and user history.
 * Cloud Storage: we use this service to store SQL that we have created using a local computer.
 ---
-
+![Alur](alur.png)
 #### Deployment
 Following are the steps for deploying our application on the Google Cloud Platform:
 1. First, we built the API using a local server, setting up user routes and testing Postman with a local URL.
