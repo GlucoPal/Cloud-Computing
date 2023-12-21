@@ -13,7 +13,7 @@
 Following are the steps for deploying our application on the Google Cloud Platform:
 1. First, we built the API using a local server, setting up user routes and testing Postman with a local URL.
 2. After that, we created a virtual machine instance with the Linux operating system on Google Compute Engine.
-3. We installed docker-compose and pm2; 3. Node.js is already available on our virtual machine.
+3. We installed docker-compose and pm2; Node.js and Express JS is already available on our virtual machine.
 4. Then, we created a Google Cloud Storage Bucket and Google Cloud SQL using MySQL as the DBMS.
 5. We upload the local database export results to Google Storage Bucket to import them into Cloud SQL.
 6. Then, we note down the Cloud SQL server IP and set our env according to the Cloud server.
